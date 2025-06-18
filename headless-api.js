@@ -33,7 +33,7 @@ async function getHeadlessAPI(host, clientId, clientSecret, apiEndpoint, method 
 
     try {
         // 1. Dapatkan token terlebih dahulu
-        const accessToken = await getToken(host,clientId,clientSecret);
+        const accessToken = await getLiferayToken(host,clientId,clientSecret);
 
         if (!accessToken) {
             throw new Error('Tidak dapat memperoleh Access Token. Panggilan API dibatalkan.');

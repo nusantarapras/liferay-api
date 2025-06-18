@@ -1,0 +1,74 @@
+async function getLiferayToken(host,clientId,clientSecret) {
+    let params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    params.append('client_id', clientId);
+    params.append('client_secret', clientSecret);
+    
+    const url = host + '/o/oauth2/token';
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params.toString()
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Failed to get token: ${response.status} - ${errorData.error_description || JSON.stringify(errorData)}`);
+        }
+
+        const data = await response.json();
+        console.log('Token berhasil didapatkan:', data);
+        return data.access_token;
+    } catch (error) {
+        console.error('Error saat melakukan request token:', error);
+        throw error;
+    }
+}
+
+async function getHeadlessAPI(host, clientId, clientSecret, apiEndpoint, method = 'GET', body = null) {
+
+    try {
+        // 1. Dapatkan token terlebih dahulu
+        const accessToken = await getToken(host,clientId,clientSecret);
+
+        if (!accessToken) {
+            throw new Error('Tidak dapat memperoleh Access Token. Panggilan API dibatalkan.');
+        }
+
+        // 2. Lanjutkan dengan panggilan API menggunakan token yang didapat
+        const headers = {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        };
+
+        const fetchOptions = {
+            method: method,
+            headers: headers
+        };
+
+        if (body && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+            fetchOptions.body = JSON.stringify(body);
+        }
+        
+        const fixUrl = host+apiEndpoint;
+
+        const response = await fetch(fixUrl, fetchOptions);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`API call failed: ${response.status} - ${errorData.error_description || JSON.stringify(errorData)}`);
+        }
+
+        const data = await response.json();
+        console.log('Data dari Liferay API:', data);
+        return data; // Mengembalikan data dari API
+    } catch (error) {
+        console.error('Error saat memanggil API Liferay:', error);
+        throw error; // Lempar error untuk penanganan lebih lanjut
+    }
+}
+

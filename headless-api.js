@@ -21,7 +21,7 @@ async function getLiferayToken(host,clientId,clientSecret) {
         }
 
         const data = await response.json();
-        console.log('Token berhasil didapatkan:', data);
+//        console.log('Token berhasil didapatkan:', data);
         return data.access_token;
     } catch (error) {
         console.error('Error saat melakukan request token:', error);
@@ -64,7 +64,7 @@ async function getHeadlessAPI(host, clientId, clientSecret, apiEndpoint, method 
         }
 
         const data = await response.json();
-        console.log('Data dari Liferay API:', data);
+//        console.log('Data dari Liferay API:', data);
         return data; // Mengembalikan data dari API
     } catch (error) {
         console.error('Error saat memanggil API Liferay:', error);

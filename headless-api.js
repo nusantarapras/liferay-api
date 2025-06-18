@@ -72,3 +72,16 @@ async function getHeadlessAPI(host, clientId, clientSecret, apiEndpoint, method 
     }
 }
 
+function getValueByFieldName(fields, fieldName) {
+    const field = fields.find(f => f.name === fieldName);
+    if (!field) return undefined;
+
+    if (field.dataType === 'string' || field.dataType === 'text' || field.dataType === 'boolean' || field.dataType === 'number') {
+        return field.contentFieldValue.data;
+    } else if (field.dataType === 'image' && field.contentFieldValue.image) {
+        // Untuk icon, kita langsung kembalikan objek image-nya agar bisa diolah lebih lanjut
+        return field.contentFieldValue.image;
+    }
+    return undefined;
+}
+

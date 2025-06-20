@@ -78,7 +78,11 @@ function getValueByFieldName(fields, fieldName) {
 
     if (field.dataType === 'string' || field.dataType === 'text' || field.dataType === 'boolean' || field.dataType === 'number') {
         return field.contentFieldValue.data;
-    } else if (field.dataType === 'image' && field.contentFieldValue.image) {
+    } 
+    else if(field.dataType === 'date' && field.contentFieldValue.data) {
+        return new Date(field.contentFieldValue.data);
+    }
+    else if (field.dataType === 'image' && field.contentFieldValue.image) {
         // Untuk icon, kita langsung kembalikan objek image-nya agar bisa diolah lebih lanjut
         return field.contentFieldValue.image;
     }

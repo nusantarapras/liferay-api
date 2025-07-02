@@ -87,6 +87,10 @@ function getValueByFieldName(fields, fieldName) {
         // Untuk icon, kita langsung kembalikan objek image-nya agar bisa diolah lebih lanjut
         return field.contentFieldValue.image;
     }
+    else if (field.dataType === 'document' && field.contentFieldValue.document) {
+        // Untuk icon, kita langsung kembalikan objek image-nya agar bisa diolah lebih lanjut
+        return field.contentFieldValue.document;
+    }
     return undefined;
 }
 

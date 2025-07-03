@@ -112,6 +112,7 @@ function mapData(records){
 		} else {
 			objReturn[key] = value;
 		}
+	});
 	return objReturn;
 }
 

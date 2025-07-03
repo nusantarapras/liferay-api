@@ -99,14 +99,13 @@ function mapData(records){
 	records.forEach(record => {
 		const key = record.name;
 		const type = record.dataType;
-		const repeatable = record.repeatable;
 		let value = ''
 		if(type == 'date') value = (new Date(record.contentFieldValue.data));
 		else if(type == 'image' && record.contentFieldValue.image) value = record.contentFieldValue.image.contentUrl;
 		else if(type == 'document' && record.contentFieldValue.document) value = record.contentFieldValue.document.contentUrl;
 		else value = record.contentFieldValue.data;
 
-		if(repeatable){
+		if(record.repeatable){
 			if(!objReturn[key]) objReturn[key] = [];
 			objReturn[key].push(value);
 		} else {

@@ -99,23 +99,19 @@ function mapData(records){
 	records.forEach(record => {
 		const key = record.name;
 		const type = record.dataType;
+		const repeatAble = record.repeatable;
 		let value = ''
 		if(type == 'date') value = (new Date(record.contentFieldValue.data));
 		else if(type == 'image' && record.contentFieldValue.image) value = record.contentFieldValue.image.contentUrl;
 		else if(type == 'document' && record.contentFieldValue.document) value = record.contentFieldValue.document.contentUrl;
 		else value = record.contentFieldValue.data;
-		
-		
-	if(objReturn[key]){			
-		if(typeof objReturn[key] == 'string') {
-				const temp = objReturn[key];
-				objReturn[key] = [];
-				objReturn[key].push(temp);	
-			}
+
+		if(repeatable){
+			if(!objReturn[key]) objReturn[key] = [];
 			objReturn[key].push(value);
+		} else {
+			objReturn[key] = value;
 		}
-		else objReturn[key] = value;
-	});
 	return objReturn;
 }
 

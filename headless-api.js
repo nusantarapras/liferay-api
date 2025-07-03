@@ -99,7 +99,7 @@ function mapData(records){
 	records.forEach(record => {
 		const key = record.name;
 		const type = record.dataType;
-		const repeatAble = record.repeatable;
+		const repeatable = record.repeatable;
 		let value = ''
 		if(type == 'date') value = (new Date(record.contentFieldValue.data));
 		else if(type == 'image' && record.contentFieldValue.image) value = record.contentFieldValue.image.contentUrl;
